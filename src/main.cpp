@@ -18,7 +18,7 @@
 //
 
 //  ERROR LIST
-//  ERROR 1 - eventHandler out of bounds event
+//  ERROR 1 - EventHandler out of bounds event
 //  ERROR 2 - pChange out of bounds currentState
 //  ERROR 3 - non-existent page (pChange), doesn't cover S::MM and S::DEL
 //  ERROR 4 - okChange out of bounds currentState
@@ -30,24 +30,17 @@
 #include "Arduino.h"
 #include "icons.h"
 #include "Vector.h"
+#include "Sensor.hpp"
 #include <EEPROM.h>
-#include <LiquidCrystal_I2C.h>
+
 #include "Settings.hpp"
-LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 unsigned short sensorSelected;
 unsigned short page, maxPage[statePagesDefined] = {0, 3, 4, 0, 1, 8, 3, 1, 1, 2, 1, 1, 1, 1, 1}, statePageSel;
 
-enum State {SETUP, MM, SETTINGS, ADDEDIT, DELLIST, DEL, SENSOR, CLOUD, UPLOAD, DOWNLOAD, CHECK, s_name, s_pin, s_voltage, s_resistance, s_fc};
-enum Event {e_setup, e_mm, e_cloud, e_up, e_down, e_cs, e_sett, e_addedit, e_dellist, e_del, e_check, e_name, e_pin, e_voltage, e_resistance, e_fc};
-State currentState;
-State checkOut;
-Event addOrEdit;
-Event prevEvent;
-Event event;
-bool nextEvent = false;
-bool pageChange = false;
-bool okPressed = false;
+
+
+
 
 bool delSensor = false;
 int sInputError;
@@ -159,104 +152,8 @@ void buttonRead(void){
     }
 }
 
-//eventHandler is ready to go
-void eventHandler(Event event){
-    nextEvent = false;
-    if(serialDebug){
-        Serial.println("\neventHandler() active");
-        Serial.print("IN State: ");
-        Serial.println(currentState);
-    }
+//EventHandler is ready to go
 
-    switch (event){
-        case e_setup:
-            currentState = State::SETUP;
-            break;
-
-        case e_mm:
-            statePageSel = pmm;
-            currentState = State::MM;
-            break;
-
-        case e_cloud:
-            statePageSel = pcloud;
-            currentState = State::CLOUD;
-            break;
-
-        case e_up:
-            statePageSel = pupload;
-            currentState = State::UPLOAD;
-            break;
-
-        case e_down:
-            statePageSel = pdownload;
-            currentState = State::DOWNLOAD;
-            break;
-
-        case e_cs:
-            statePageSel = psensor;
-            currentState = State::SENSOR;
-            break;
-
-        case e_sett:
-            statePageSel = psettings;
-            currentState = State::SETTINGS;
-            break;
-
-        case e_addedit:
-            statePageSel = paddedit;
-            currentState = State::ADDEDIT;
-            break;
-
-        case e_dellist:
-            statePageSel = pdellist;
-            currentState = State::DELLIST;
-            break;
-
-        case e_del:
-            statePageSel = pdel;
-            currentState = State::DEL;
-            break;
-
-        case e_check:
-            statePageSel = pcheck;
-            currentState = State::CHECK;
-            break;
-
-        case e_name:
-            statePageSel = pname;
-            currentState = State::s_name;
-            break;
-
-        case e_pin:
-            statePageSel = ppin;
-            currentState = State::s_pin;
-            break;
-
-        case e_voltage:
-            statePageSel = pvoltage;
-            currentState = State::s_voltage;
-            break;
-
-        case e_resistance:
-            statePageSel = presistance;
-            currentState = State::s_resistance;
-            break;
-
-        case e_fc:
-            statePageSel = pfc;
-            currentState = State::s_fc;
-            break;
-
-        default:
-            errorHandler(1);
-    }
-    if(serialDebug){
-        Serial.print("OUT State: ");
-        Serial.println(currentState);
-        Serial.println();
-    }
-}
 
 //pChange is ready to go
 void pChange(void){

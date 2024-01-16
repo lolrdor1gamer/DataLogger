@@ -1,4 +1,8 @@
-bool serialDebug = false;
+#ifndef settings_h
+#define settings_h
+
+#define serialDebug
+
 bool startUpAnimation = true;
 bool useEEPROM = true;
 bool resetEEPROM = false;
@@ -31,3 +35,4 @@ bool dummySensors = false;
 /*mP11*/#define pvoltage 12
 /*mP12*/#define presistance 13
 /*mP13*/#define pfc 14
+#endif

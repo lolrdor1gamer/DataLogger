@@ -1,12 +1,13 @@
 #ifndef settings_h
 #define settings_h
 
+
+
 #define serialDebug
 
-bool startUpAnimation = true;
-bool useEEPROM = true;
-bool resetEEPROM = false;
-bool dummySensors = false;
+
+
+
 
 
 #define prevButtonPin 5   // K1

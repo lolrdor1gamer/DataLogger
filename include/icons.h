@@ -1,5 +1,6 @@
 #ifndef icons_h
 #define icons_h
+#include "Arduino.h"
 
 byte R1[8] = {
         0B00111,

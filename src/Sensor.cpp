@@ -9,8 +9,7 @@ Sensor::Sensor(char *name)
 
     senName[sizeof(senName) - 1] = '\0';
 
-    if(serialDebug)
-    {
+#ifdef serialDebug
         Serial.println("Def. Constructor used");
         Serial.print("Name is: ");
         Serial.println(senName);
@@ -23,7 +22,7 @@ Sensor::Sensor(char *name)
         Serial.print("Value is: ");
         Serial.println(senValue);
         Serial.println();
-    }
+#endif
 }
 
 Sensor::Sensor(char *name, int pin, float v, int r)
@@ -31,8 +30,7 @@ Sensor::Sensor(char *name, int pin, float v, int r)
 {
     strncpy(senName, name, sizeof(senName) - 1);
     senName[sizeof(senName) - 1] = '\0';
-    if(serialDebug)
-    {
+#ifdef serialDebug
         Serial.println("Par. Constructor used");
         Serial.print("Name is: ");
         Serial.println(senName);
@@ -45,7 +43,7 @@ Sensor::Sensor(char *name, int pin, float v, int r)
         Serial.print("Value is: ");
         Serial.println(senValue);
         Serial.println();
-    }
+#endif
     // V and R error checking
 }
 

@@ -1,4 +1,13 @@
 #include "ScreenHandler.hpp"
+#include "icons.h"
+
+extern byte arrow[8];
+extern byte settings[8];
+extern byte R1[8];
+extern byte R2[8];
+
+
+ScreenHandler* ScreenHandler::_instance = nullptr;
 
 ScreenHandler::ScreenHandler() : lcd(0x27, 16, 2)
 {
@@ -328,18 +337,6 @@ void ScreenHandler::Init()
     lcd.createChar(3, arrow);
 }
 
-
-template<typename T>
-void ScreenHandler::PrintScreen(const T str)
-{
-    lcd.print(str);
-}
-
-template<typename T>
-void ScreenHandler::PrintlnScreen(T str)
-{
-    lcd.println(str);
-}
 
 
 

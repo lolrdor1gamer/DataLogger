@@ -6,7 +6,14 @@
 #include "Vector.h"
 
 
-int numberOfSensors;
+int amountOfSensors = 0;
+
+
+void loadFromEEPROM(Vector<Sensor>* sensors);
+void saveToEEPROM(Vector<Sensor>* sensors);
+void updateEEPROM(bool& delSensor, Vector<Sensor>* sensors);
+
+
 
 void loadFromEEPROM(Vector<Sensor>* sensors)
 {
@@ -15,17 +22,17 @@ void loadFromEEPROM(Vector<Sensor>* sensors)
 #endif
 
     Sensor sensor;
-    int address = sizeof(numberOfSensors);
-    EEPROM.get(0, numberOfSensors);
+    int address = sizeof(amountOfSensors);
+    EEPROM.get(0, amountOfSensors);
 
 #ifdef serialDebug
-    Debugger::LoadFromEEPROMDebugSensAmount(EEPROM.get(0, numberOfSensors));
+    Debugger::LoadFromEEPROMDebugSensAmount(EEPROM.get(0, amountOfSensors));
 #endif
 
-    if(numberOfSensors < 1) numberOfSensors = 0;
+    if(amountOfSensors < 1) amountOfSensors = 0;
     else
     {
-        for(int i = 0; i < numberOfSensors; i++)
+        for(int i = 0; i < amountOfSensors; i++)
         {
             EEPROM.get(address, sensor);
             sensors->push_back(sensor);
@@ -49,15 +56,15 @@ void saveToEEPROM(Vector<Sensor>* sensors)
 #endif
 
 
-    int address = sizeof(numberOfSensors) + sizeof(Sensor) * numberOfSensors;
-    numberOfSensors++;
+    int address = sizeof(amountOfSensors) + sizeof(Sensor) * amountOfSensors;
+    amountOfSensors++;
 
-    EEPROM.put(0, numberOfSensors);
+    EEPROM.put(0, amountOfSensors);
     EEPROM.put(address, sensors->back());
 
 #ifdef serialDebug
     Sensor sensor;
-    auto a = EEPROM.get(0, numberOfSensors);
+    auto a = EEPROM.get(0, amountOfSensors);
     EEPROM.get(address, sensor);
 
     Debugger::SaveToEEPROMDebugSensLoading(a, &sensor);
@@ -70,26 +77,27 @@ void saveToEEPROM(Vector<Sensor>* sensors)
 
 
 
-void updateEEPROM(bool& delSensor, Vector<Sensor>* sensors){
+void updateEEPROM(bool& delSensor, Vector<Sensor>* sensors)
+{
 #ifdef serialDebug
     Debugger::UpdateEEPROMDebugStart();
 #endif
-    int address = sizeof(numberOfSensors);
+    int address = sizeof(amountOfSensors);
 
     if(delSensor){
-        numberOfSensors--;
-        EEPROM.put(0, numberOfSensors);
+        amountOfSensors--;
+        EEPROM.put(0, amountOfSensors);
         delSensor = false;
     }
 #ifdef serialDebug
-    Debugger::UpdateEEPROMDebugMid(EEPROM.get(0, numberOfSensors));
+    Debugger::UpdateEEPROMDebugMid(EEPROM.get(0, amountOfSensors));
 #endif
 
-    if(numberOfSensors)
+    if(amountOfSensors)
     {
         Sensor sensor;
 
-        for(int i = 0; i < numberOfSensors; i++){
+        for(int i = 0; i < amountOfSensors; i++){
             sensor = sensors->at(i);
             EEPROM.put(address, sensor);
             address += sizeof(Sensor);

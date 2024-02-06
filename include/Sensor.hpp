@@ -1,8 +1,10 @@
+
+#ifndef sensor_h
+#define sensor_h
+
 #include <string.h>
 #include "Settings.hpp"
 #include "Arduino.h"
-#ifndef sensor_h
-#define sensor_h
 class Sensor{
 
 private:

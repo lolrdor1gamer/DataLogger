@@ -966,8 +966,13 @@ void FSM::Startup()
 
     Serial.print("startUpAnimation: ");
     Serial.println(startUpAnimation);
+
     Serial.print("serialDebug: ");
-    Serial.println(serialDebug);
+#ifndef serialDebug
+    Serial.println("false");
+#else
+    Serial.println("true");
+#endif
     Serial.print("useEEPROM: ");
     Serial.println(useEEPROM);
     Serial.print("resetEEPROM: ");

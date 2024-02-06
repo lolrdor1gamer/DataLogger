@@ -1,4 +1,5 @@
 #include "SerialDebug.hpp"
+#include "arduino.h"
 
 
 const void Debugger::EventHandlerDebugStart(State state) {

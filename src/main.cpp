@@ -28,7 +28,7 @@
 //  ERROR 8 - DEL transition incorrect
 //  ERROR 9 - sInputError out of bounds
 
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "StateMachine.hpp"
 
 FSM fsm;

@@ -1,0 +1,1 @@
+int amountOfSensors = 0;

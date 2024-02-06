@@ -1,9 +1,7 @@
 #ifndef settings_h
 #define settings_h
 
-
-
-#define serialDebug
+//#define serialDebug
 
 
 
